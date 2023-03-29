@@ -1,0 +1,29 @@
+Acc0[Contract Owner=MoH]: 0x3c764142878ecf10fa712336cde5cc778878a294
+
+
+Acc1[Hospital_A]: 0xec5bf0f1de02e5fc8fde5adebe12bd4239535b7c
+Sample Pub. key: 0x292504dd1986dd79ec626e2d9aeed41e91814ddca898f69df2b1d1f27e83481d
+Sample data to IPFS => {"Ts": 124, "E_AP": "0x12345", "E_EHR": "g834859"}
+Timestamp: 124
+IPFS hash of Patient data: QmddchiYMQGZYLZf86jhyhkxRqrGfpBNr53b4oiV76q6aq
+Hash of Encrypted EHR: 0x383e603683db3e54096f391c5ee27b2ed04ca32919eccb1a03ba4ea810033a0a
+
+
+Acc2[Hospital_B]: 0x136f79926505f76c3252a921937dd5ab18ded515
+Sample Pub. key: 0x2590bfab99298edec2572a0dd4a2325264c4e8ae698d81c3670e370fa1be7315
+Sample data to IPFS => {"Ts": 125, "E_AP": "0x76345", "E_EHR": "f934845"}
+IPFS hash of Patient data: QmeqrhiYMQGZYLZf92yqrhkxRqrGfpMGr53b4oiQ12f8rf
+Hash of Encrypted EHR: 0x12e87701118da01be7b65b785dc2308d0cf2b3ad60a48108925465891e18c612
+Timestamp: 125
+
+Sample signature_1: 0xdf319980723965dae6c66c3eeac1248d2c251ef760c6a956aa812b23082d551071788d760a443b7083f6c3967f83679346732ad8e7a710db31f2d0a6f265af591b
+
+Sample signature_2: 0x2545b7fe681d2b1ac66fda1c4be326215d5e4f7e4ed3afb0a4575bc8912617d26fcf9b52229e5059c0a2f9897654a8038b94a5d82bab9fc5c890d1022544e2181b
+
+
+Patient ID: CHN345
+Keccak256 Hash: 0x6814531d1fec7c42b86b534ba8c335cb96b7b6030e410027da6bfca30fa8df8f
+
+PHID=> hashedID||Acc1: 0xcc11309baa8aca1cb1c7d527c5f39665e270c03ab0e67191357694e3faa8a03c
+
+PHID=> hashedID||Acc2: 0xd3a221e98e5570adb66b097e4d03cd9a5243a9c02099b22a67c3be07251f67f8
