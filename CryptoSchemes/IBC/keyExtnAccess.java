@@ -3,7 +3,7 @@ import it.unisa.dia.gas.jpbc.*;
 import it.unisa.dia.gas.plaf.jpbc.pairing.PairingFactory;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.*;
+// import java.util.*;
 //import it.unisa.dia.gas.plaf.jpbc.pairing.a.TypeACurveGenerator;
 //import it.unisa.dia.gas.jpbc.PairingParametersGenerator;
 
