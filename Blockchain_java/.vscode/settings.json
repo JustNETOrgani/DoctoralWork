@@ -1,0 +1,13 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "jars/bcprov-jdk16-1.46.jar",
+        "jars/jna-3.2.5.jar",
+        "jars/jpbc-api-2.0.0.jar",
+        "jars/jpbc-benchmark-2.0.0.jar",
+        "jars/jpbc-crypto-2.0.0.jar",
+        "jars/jpbc-mm-2.0.0.jar",
+        "jars/jpbc-pbc-2.0.0.jar",
+        "jars/jpbc-plaf-2.0.0.jar"
+    ]
+}
