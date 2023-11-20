@@ -22,7 +22,7 @@ public class testNewModel {
         ArrayList<specificUserParams> designatedUserPubParams = proposedModel.setUser(userID, U_ID_i, T_M);
 
         // Designated user runs key extract.
-        int T_D = 15;
+        int T_D = 10;
         Element[] userSecretKeys = proposedModel.extractUserCredentials(designatedUserPubParams, userID, T_M, T_D);
         if (userSecretKeys[0].isZero() == false){
             System.out.println("============ User Secret Keys ==============");
@@ -31,6 +31,25 @@ public class testNewModel {
             System.out.println("============== User Secret Keys  ===============");
         } else {
             System.out.println("Ooops! Execution error.");
+        }
+
+        // Test keyRenewal. Run Key renewal algorithm: Simulate via loop.
+        for(int nextT_D=28; nextT_D<=T_M; nextT_D++){
+            Element EphemKey = proposedModel.keyRenewal(userID, userSecretKeys[0], T_M, nextT_D);
+            if(EphemKey.isZero()==false){
+                System.out.println("Renewed Ephemeral secret key: " + EphemKey);
+            }
+        }
+
+        // Run Key access algorithm.
+        int prevT_D = T_D; // Here, T_D=10
+        Element EphKeyAccessed = proposedModel.keyAccess(userID, userSecretKeys[0], prevT_D);
+        // Check equality with initial.
+        if(userSecretKeys[1].isEqual(EphKeyAccessed)){
+            System.out.println("Ephemeral key accessed matches previous key.");
+            System.out.println("Accessed Ephemeral secret key: " + EphKeyAccessed);
+        } else{
+            System.out.println("Ephemeral key accessed does not match initial key.");
         }
         
     }

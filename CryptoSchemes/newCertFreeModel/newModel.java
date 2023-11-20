@@ -37,9 +37,9 @@ public class newModel {
     }
 
     public Element userSecretValueSelect(String userID) throws NoSuchAlgorithmException{
-        u = cryptoParam.Zr.newRandomElement();
+        u = cryptoParam.Zr.newRandomElement().getImmutable();
         Element U_ID_i = cryptoParam.G1.newElement();
-        U_ID_i = ((cryptoParam.g.duplicate()).mulZn(u)).getImmutable();
+        U_ID_i = ((cryptoParam.g.duplicate()).mulZn(u.duplicate())).getImmutable();
         return U_ID_i;
     }
 
@@ -85,6 +85,7 @@ public class newModel {
             System.out.println("Passed data assurance from EBKG and data integrity");
             System.out.println("Extracting base key...");
             Element K_ID_i = (X.powZn(u.negate().mulZn(desigUserParam.get(0).s))).mul(desigUserParam.get(0).V_ID_i);
+            System.out.println("K_ID_i: "+ K_ID_i);
             // Check ownership and validity simultaneously.
             System.out.println("Now checking ownership and correctness.");
             Element Q_ID_i = cryptoParam.G1.newRandomElement();
@@ -102,6 +103,7 @@ public class newModel {
                 String prepHash_3 = Integer.toString(T_D);
                 hashFunc(t_p, prepHash_3);
                 secretKeys[1] = secretKeys[0].mulZn(u.add(t_p));
+                System.out.println("User secrets successfully generated.");
                 return secretKeys;
             } else {
                 System.out.println("Key correctness and ownership check failed.");
@@ -115,6 +117,65 @@ public class newModel {
             secretKeys[1].setToZero();
             return secretKeys;
         }
+    }
+
+    public Element keyRenewal(String userID, Element mainSk, int T_M, int nextT_D) throws NoSuchAlgorithmException{
+        Element ephemKey = cryptoParam.G1.newRandomElement();
+        if (nextT_D <= T_M){
+            // Compute base key
+            // System.out.println("Main sk: "+ mainSk);
+            Element K_ID_i = mainSk.duplicate().mulZn(u.invert());
+            // Preparing pairing
+            Element outLeftPaired = cryptoParam.pairing.pairing(K_ID_i.duplicate(), cryptoParam.g.duplicate());
+            Element Q_ID_i = cryptoParam.G1.newElement();
+            String prepHash_1 = userID + T_M;
+            hashFunc(Q_ID_i, prepHash_1);
+            Element outRightPaired = cryptoParam.pairing.pairing(Q_ID_i.duplicate(), X);
+            if (outLeftPaired.isEqual(outRightPaired)){
+                System.out.println("Successful key validation check.");
+                // Compute ephem. key.
+                Element t_p = cryptoParam.Zr.newElement();
+                String T_D_converted = Integer.toString(nextT_D);
+                hashFunc(t_p, T_D_converted);
+                ephemKey = mainSk.mulZn(u.add(t_p.duplicate()));
+                return ephemKey;
+            } else {
+                System.out.println("Failed key validation check.");
+                return ephemKey.setToZero();
+            }
+        }else{
+            ephemKey.setToZero(); // Added for loop purposes.
+            System.out.println("Sorry! Ephemeral secret key cannot be renewed: Time bound exceeded.");
+            return ephemKey;
+        }
+    }
+
+    public Element keyAccess(String userID, Element mainSk, int prevT_D) throws NoSuchAlgorithmException{
+        Element ephemKey = cryptoParam.G1.newRandomElement();
+        // Compute T_M value based on T_{D-1}.
+        int T_M = 30; // Highly abstracted. i.e. prevT_D*3
+        // Compute base key
+        Element K_ID_i = mainSk.duplicate().mulZn(u.invert());
+        // Preparing pairing
+        Element outLeftPaired = cryptoParam.pairing.pairing(K_ID_i.duplicate(), cryptoParam.g.duplicate());
+        Element Q_ID_i = cryptoParam.G1.newElement();
+        String prepHash_1 = userID + T_M;
+        hashFunc(Q_ID_i, prepHash_1);
+        Element outRightPaired = cryptoParam.pairing.pairing(Q_ID_i.duplicate(), X);
+        if (outLeftPaired.isEqual(outRightPaired)){
+            System.out.println("Successful key validation check.");
+            // Compute accessed key.
+            Element t_p = cryptoParam.Zr.newElement();
+            String T_D_converted = Integer.toString(prevT_D);
+            hashFunc(t_p, T_D_converted);
+            // System.out.println("Main secret key: "+ mainSk);
+            // System.out.println("u value: "+ u);
+            ephemKey = mainSk.mulZn(u.duplicate().add(t_p));
+            return ephemKey;
+            } else {
+                System.out.println("Failed key validation check.");
+                return ephemKey.setToZero();
+            }
     }
 
     // ======================= Utility functions =======================
